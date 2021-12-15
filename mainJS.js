@@ -44,8 +44,8 @@ const addScale = () => {
                     .range([padding, h - padding]);
     
     xScale = d3.scaleLinear()
-               .domain([minX, maxX])
-               .range([padding, w - padding]);
+               .domain([minY, maxY])
+               .range([0, w - padding]);
 
     console.log(d3.max(jsonData.data, (d) => d[0]))
     addRect();
@@ -57,9 +57,9 @@ const addRect = () => {
            .enter()
            .append('rect')
            .attr('class', 'bar')
-           .attr('x', (d, i) => i * 6)
+           .attr('x', (d, i) => i * 7)
            .attr('y', (d, i) => h - heightScale(d[1]))
-           .attr('width', 5)
+           .attr('width', 8)
            .attr('height', (d) => heightScale(d[1]));
 
     addAxisBottom();
@@ -69,7 +69,7 @@ const addAxisBottom = () => {
     const xAxis = d3.axisBottom(xScale);
     
     dataSvg.append('g')
-           .attr("transform", "translate(0," + (h - padding) + ")")
+           .attr("transform", "translate(0," + (padding) + ")")
            .call(xAxis)
 }
 
