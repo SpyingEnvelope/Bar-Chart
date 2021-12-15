@@ -12,24 +12,21 @@ let jsonData;
 fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
     .then(response => response.json())
     .then(function (response) {
-        jsonData = JSON.stringify(response)
+        console.log('Date ' + response.data[2][0] + ' GDP ' + response.data[2][1]);
+        jsonData = JSON.stringify(response);
+        $('#valueme').html(jsonData);
 });
 
 class MainComponent extends React.Component {
     constructor(props) {
         super(props)
     }
-
-    changeValue = () => {
-        $('#valueme').html(jsonData)
-    }
     
     render() {
         return (
             <div>
                 <h1 id='title'>Bar Chart</h1>
-                <h2 id='valueme'>{jsonData}</h2>
-                <button onClick={this.changeValue}>click me</button>
+                <h2 id='valueme'></h2>
             </div>
         )
     }
