@@ -44,10 +44,10 @@ const addScale = () => {
                     .range([padding, h - padding]);
     
     xScale = d3.scaleLinear()
-               .domain([minY, maxY])
-               .range([0, w - padding]);
+               .domain([minX.substring(0, 4), maxX.substring(0, 4)])
+               .range([padding, w - padding]);
 
-    console.log(d3.max(jsonData.data, (d) => d[0]))
+    console.log(maxX.substring(0, 4))
     addRect();
 }
 
@@ -57,9 +57,9 @@ const addRect = () => {
            .enter()
            .append('rect')
            .attr('class', 'bar')
-           .attr('x', (d, i) => i * 7)
-           .attr('y', (d, i) => h - heightScale(d[1]))
-           .attr('width', 8)
+           .attr('x', (d, i) => padding + i * 6.69)
+           .attr('y', (d, i) => h - padding - heightScale(d[1]))
+           .attr('width', w / jsonData.data.length - 0.5)
            .attr('height', (d) => heightScale(d[1]));
 
     addAxisBottom();
@@ -69,8 +69,12 @@ const addAxisBottom = () => {
     const xAxis = d3.axisBottom(xScale);
     
     dataSvg.append('g')
-           .attr("transform", "translate(0," + (padding) + ")")
+           .attr("transform", "translate(0," + (h - 30) + ")")
            .call(xAxis)
+}
+
+const addAxisLeft = () => {
+    const yAxis = d3.axisLeft(yScale);
 }
 
 class MainComponent extends React.Component {
