@@ -2,10 +2,10 @@
 let jsonDataString;
 let jsonData;
 let dataSvg;
-let scale;
+let heightScale;
 
 const w = 1920;
-const h = 180;
+const h = 500;
 const widthCheck = window.innerWidth;
 const heightCheck = window.innerHeight;
 
@@ -27,6 +27,16 @@ const addSvg = () => {
                 .append('svg')
                 .attr('width', w)
                 .attr('height', h);
+    addScale();
+}
+
+const addScale = () => {
+    const minY = d3.min(jsonData.data, (d) => d[1])
+    const maxY = d3.max(jsonData.data, (d) => d[1])
+
+    heightScale = d3.scaleLinear()
+                    .domain([minY, maxY])
+                    .range([10, 500]);
     addRect();
 }
 
@@ -38,7 +48,7 @@ const addRect = () => {
            .attr('x', (d, i) => i * 6)
            .attr('y', 0)
            .attr('width', 5)
-           .attr('height', 180)
+           .attr('height', (d) => heightScale(d[1]))
 }
 
 class MainComponent extends React.Component {
