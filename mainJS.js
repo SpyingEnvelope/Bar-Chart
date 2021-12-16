@@ -35,20 +35,23 @@ const addSvg = () => {
 const addScale = () => {
     const minY = d3.min(jsonData.data, (d) => d[1])
     const maxY = d3.max(jsonData.data, (d) => d[1])
-
     const minX = d3.min(jsonData.data, (d) => d[0])
     const maxX = d3.max(jsonData.data, (d) => d[0])
 
+    const datesArray = jsonData.data.map(item => new Date(item[0]))
+
+    console.log(datesArray)
+
     yScale = d3.scaleLinear()
-               .domain([minY, maxY])
+               .domain([0, maxY])
                .range([h - padding, padding]);
 
     heightScale = d3.scaleLinear()
                     .domain([minY, maxY])
                     .range([padding, h - padding]);
     
-    xScale = d3.scaleLinear()
-               .domain([minX.substring(0,4), maxX.substring(0,4)])
+    xScale = d3.scaleTime()
+               .domain([d3.min(datesArray), d3.max(datesArray)])
                .range([padding, w - padding]);
 
     addRect();
@@ -76,7 +79,7 @@ const addAxisBottom = () => {
     dataSvg.append('g')
            .attr('id', 'x-axis')
            .attr("transform", "translate(0," + (h - 30) + ")")
-           .call(xAxis.ticks(20).tickFormat(d => d))
+           .call(xAxis.ticks(20))
     addAxisLeft();
 }
 
@@ -86,7 +89,7 @@ const addAxisLeft = () => {
     dataSvg.append('g')
            .attr('id', 'y-axis')
            .attr('transform', 'translate(' + padding + ', 0)')
-           .call(yAxis.ticks(20));
+           .call(yAxis.ticks(55));
 }
 
 class MainComponent extends React.Component {
