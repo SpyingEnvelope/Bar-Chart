@@ -1,3 +1,9 @@
+// jQuery
+
+$(document).mousemove(function(event) {
+    console.log(event.target.dataset.date)
+})
+
 
 let jsonDataString;
 let jsonData;
@@ -71,7 +77,9 @@ const addRect = () => {
            .attr('x', (d, i) => widthScale(i))
            .attr('y', (d, i) => h - padding - heightScale(d[1]))
            .attr('width', w / jsonData.data.length - 0.5)
-           .attr('height', (d) => heightScale(d[1]));
+           .attr('height', (d) => heightScale(d[1]))
+           .append('title')
+           .text(d => 'Date ' + d[0] + '; GDP ' + d[1])
 
     addAxisBottom();
 }
