@@ -47,7 +47,7 @@ const addScale = () => {
 
     heightScale = d3.scaleLinear()
                     .domain([0, maxY])
-                    .range([padding, h - padding]);
+                    .range([0, h - padding]);
     
     xScale = d3.scaleTime()
                .domain([d3.min(datesArray), d3.max(datesArray)])
