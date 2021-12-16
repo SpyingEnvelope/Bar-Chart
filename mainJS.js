@@ -3,6 +3,7 @@ let jsonDataString;
 let jsonData;
 let dataSvg;
 let heightScale;
+let widthScale;
 let yScale;
 let xScale;
 
@@ -35,8 +36,6 @@ const addSvg = () => {
 const addScale = () => {
     const minY = d3.min(jsonData.data, (d) => d[1])
     const maxY = d3.max(jsonData.data, (d) => d[1])
-    const minX = d3.min(jsonData.data, (d) => d[0])
-    const maxX = d3.max(jsonData.data, (d) => d[0])
 
     const datesArray = jsonData.data.map(item => new Date(item[0]))
 
@@ -47,12 +46,16 @@ const addScale = () => {
                .range([h - padding, padding]);
 
     heightScale = d3.scaleLinear()
-                    .domain([minY, maxY])
+                    .domain([0, maxY])
                     .range([padding, h - padding]);
     
     xScale = d3.scaleTime()
                .domain([d3.min(datesArray), d3.max(datesArray)])
                .range([padding, w - padding]);
+
+    widthScale = d3.scaleLinear()
+                   .domain([0, jsonData.data.length - 1])
+                   .range([padding, w - padding])
 
     addRect();
 }
@@ -65,7 +68,7 @@ const addRect = () => {
            .attr('data-date', (d) => d[0])
            .attr('data-gdp', (d) => d[1])
            .attr('class', 'bar')
-           .attr('x', (d, i) => padding + i * 6.69)
+           .attr('x', (d, i) => widthScale(i))
            .attr('y', (d, i) => h - padding - heightScale(d[1]))
            .attr('width', w / jsonData.data.length - 0.5)
            .attr('height', (d) => heightScale(d[1]));
