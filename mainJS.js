@@ -43,7 +43,7 @@ const addScale = () => {
 
     yScale = d3.scaleLinear()
                .domain([0, maxY])
-               .range([h - padding, padding]);
+               .range([h - padding, 0]);
 
     heightScale = d3.scaleLinear()
                     .domain([0, maxY])
