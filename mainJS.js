@@ -3,6 +3,7 @@ let jsonDataString;
 let jsonData;
 let dataSvg;
 let heightScale;
+let yScale;
 let xScale;
 
 const w = 1920;
@@ -21,7 +22,6 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         jsonData = response;
         console.log(jsonData);
         addSvg();
-        // $('#valueme').html(jsonDataString);
 });
 
 const addSvg = () => {
@@ -39,15 +39,18 @@ const addScale = () => {
     const minX = d3.min(jsonData.data, (d) => d[0])
     const maxX = d3.max(jsonData.data, (d) => d[0])
 
+    yScale = d3.scaleLinear()
+               .domain([minY, maxY])
+               .range([h - padding, padding]);
+
     heightScale = d3.scaleLinear()
                     .domain([minY, maxY])
                     .range([padding, h - padding]);
     
     xScale = d3.scaleLinear()
-               .domain([minX.substring(0, 4), maxX.substring(0, 4)])
+               .domain([minX.substring(0,4), maxX.substring(0,4)])
                .range([padding, w - padding]);
 
-    console.log(maxX.substring(0, 4))
     addRect();
 }
 
@@ -56,6 +59,8 @@ const addRect = () => {
            .data(jsonData.data)
            .enter()
            .append('rect')
+           .attr('data-date', (d) => d[0])
+           .attr('data-gdp', (d) => d[1])
            .attr('class', 'bar')
            .attr('x', (d, i) => padding + i * 6.69)
            .attr('y', (d, i) => h - padding - heightScale(d[1]))
@@ -69,12 +74,19 @@ const addAxisBottom = () => {
     const xAxis = d3.axisBottom(xScale);
     
     dataSvg.append('g')
+           .attr('id', 'x-axis')
            .attr("transform", "translate(0," + (h - 30) + ")")
-           .call(xAxis)
+           .call(xAxis.ticks(20).tickFormat(d => d))
+    addAxisLeft();
 }
 
 const addAxisLeft = () => {
     const yAxis = d3.axisLeft(yScale);
+
+    dataSvg.append('g')
+           .attr('id', 'y-axis')
+           .attr('transform', 'translate(' + padding + ', 0)')
+           .call(yAxis.ticks(20));
 }
 
 class MainComponent extends React.Component {
