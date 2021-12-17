@@ -6,13 +6,9 @@ let widthScale;
 let yScale;
 let xScale;
 
-const w = 1920;
+const w = 1000;
 const h = 500;
 const padding = 40;
-const widthCheck = window.innerWidth;
-const heightCheck = window.innerHeight;
-
-console.log(widthCheck + ' ' + heightCheck)
 
 fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
     .then(response => response.json())
@@ -114,8 +110,8 @@ class MainComponent extends React.Component {
     
     render() {
         return (
-            <div>
-                <h1 id='title'>Bar Chart</h1>
+            <div className='container-fluid text-center'>
+                <h1 id='title'>USA GDP Over the Years</h1>
                 <h2 id='valueme'></h2>
             </div>
         )
