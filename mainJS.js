@@ -1,10 +1,3 @@
-// jQuery
-
-$(document).mousemove(function(event) {
-    console.log(event.target.dataset.date)
-})
-
-
 let jsonDataString;
 let jsonData;
 let dataSvg;
@@ -38,6 +31,13 @@ const addSvg = () => {
                 .attr('height', h);
     addScale();
 }
+
+const tooltip = d3.select('#chart-div')
+                  .append('div')
+                  .attr('id', 'tooltip')
+                  .attr('class', 'smallfont')
+                  .style('position', 'absolute')
+                  .style('opacity', '0')
 
 const addScale = () => {
     const minY = d3.min(jsonData.data, (d) => d[1])
@@ -78,8 +78,9 @@ const addRect = () => {
            .attr('y', (d, i) => h - padding - heightScale(d[1]))
            .attr('width', w / jsonData.data.length - 0.5)
            .attr('height', (d) => heightScale(d[1]))
-           .append('title')
-           .text(d => 'Date ' + d[0] + '; GDP ' + d[1])
+           .on('mouseover', () => tooltip.style('opacity', '1'))
+           .on('mousemove', (event) => tooltip.style('top', event.clientY + 'px').style('left', event.clientX + 'px').text('GDP: ' + event.target.dataset.gdp + 'Date: ' + event.target.dataset.date).attr('data-date', event.target.dataset.date))
+           .on('mouseout', () => tooltip.style('opacity', '0'))
 
     addAxisBottom();
 }
