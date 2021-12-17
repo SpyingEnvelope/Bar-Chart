@@ -79,7 +79,10 @@ const addRect = () => {
            .attr('width', w / jsonData.data.length - 0.5)
            .attr('height', (d) => heightScale(d[1]))
            .on('mouseover', () => tooltip.style('opacity', '1'))
-           .on('mousemove', (event) => tooltip.style('top', event.clientY + 'px').style('left', event.clientX + 'px').text('GDP: ' + event.target.dataset.gdp + 'Date: ' + event.target.dataset.date).attr('data-date', event.target.dataset.date))
+           .on('mousemove', (event) => tooltip.style('top', event.clientY + 'px')
+                                              .style('left', event.clientX + 'px')
+                                              .text('GDP (billions): ' + event.target.dataset.gdp + ' ' + 'Date: ' + event.target.dataset.date)
+                                              .attr('data-date', event.target.dataset.date))
            .on('mouseout', () => tooltip.style('opacity', '0'))
 
     addAxisBottom();
